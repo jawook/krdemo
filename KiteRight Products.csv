@@ -1,0 +1,113 @@
+ProductKey,CategoryKey,SKU,Manufacturer,Model,Colour,Size,Style,Cost,Price
+1,1,MC-SP-SL-8,McTavish Kites,Sparkline,Silver,8 m,Unisex,657.95695,1219.213429
+2,1,MC-SP-SL-10,McTavish Kites,Sparkline,Silver,10 m,Unisex,665.1242605,1232.494662
+3,1,MC-SP-SL-12,McTavish Kites,Sparkline,Silver,12 m,Unisex,1129.366168,2008.11905
+4,1,MC-SP-SL-15,McTavish Kites,Sparkline,Silver,15 m,Unisex,1137.731868,2022.99405
+5,1,MC-SP-BK-8,McTavish Kites,Sparkline,Black,8 m,Unisex,657.95695,1219.213429
+6,1,MC-SP-BK-10,McTavish Kites,Sparkline,Black,10 m,Unisex,665.1242605,1232.494662
+7,1,MC-SP-BK-12,McTavish Kites,Sparkline,Black,12 m,Unisex,1129.366168,2008.11905
+8,1,MC-SP-BK-15,McTavish Kites,Sparkline,Black,15 m,Unisex,1137.731868,2022.99405
+9,1,MC-SP-OR-8,McTavish Kites,Sparkline,Orange,8 m,Unisex,657.95695,1219.213429
+10,1,MC-SP-OR-10,McTavish Kites,Sparkline,Orange,10 m,Unisex,665.1242605,1232.494662
+11,1,MC-SP-OR-12,McTavish Kites,Sparkline,Orange,12 m,Unisex,1129.366168,2008.11905
+12,1,MC-SP-OR-15,McTavish Kites,Sparkline,Orange,15 m,Unisex,1137.731868,2022.99405
+13,1,MC-SP-BL-8,McTavish Kites,Sparkline,Blue,8 m,Unisex,657.95695,1219.213429
+14,1,MC-SP-BL-10,McTavish Kites,Sparkline,Blue,10 m,Unisex,665.1242605,1232.494662
+15,1,MC-SP-BL-12,McTavish Kites,Sparkline,Blue,12 m,Unisex,1129.366168,2008.11905
+16,1,MC-SP-BL-15,McTavish Kites,Sparkline,Blue,15 m,Unisex,1137.731868,2022.99405
+17,1,MC-DD-SL-8,McTavish Kites,Downdrift,Silver,8 m,Unisex,874.69571,1620.836676
+18,1,MC-DD-SL-10,McTavish Kites,Downdrift,Silver,10 m,Unisex,884.2240169,1638.492904
+19,1,MC-DD-SL-12,McTavish Kites,Downdrift,Silver,12 m,Unisex,1501.39267,2669.61709
+20,1,MC-DD-SL-15,McTavish Kites,Downdrift,Silver,15 m,Unisex,1512.51413,2689.39209
+21,1,MC-DD-BK-8,McTavish Kites,Downdrift,Black,8 m,Unisex,874.69571,1620.836676
+22,1,MC-DD-BK-10,McTavish Kites,Downdrift,Black,10 m,Unisex,884.2240169,1638.492904
+23,1,MC-DD-BK-12,McTavish Kites,Downdrift,Black,12 m,Unisex,1501.39267,2669.61709
+24,1,MC-DD-BK-15,McTavish Kites,Downdrift,Black,15 m,Unisex,1512.51413,2689.39209
+25,1,MC-DD-OR-8,McTavish Kites,Downdrift,Orange,8 m,Unisex,874.69571,1620.836676
+26,1,MC-DD-OR-10,McTavish Kites,Downdrift,Orange,10 m,Unisex,884.2240169,1638.492904
+27,1,MC-DD-OR-12,McTavish Kites,Downdrift,Orange,12 m,Unisex,1501.39267,2669.61709
+28,1,MC-DD-OR-15,McTavish Kites,Downdrift,Orange,15 m,Unisex,1512.51413,2689.39209
+29,1,MC-DD-BL-8,McTavish Kites,Downdrift,Blue,8 m,Unisex,874.69571,1620.836676
+30,1,MC-DD-BL-10,McTavish Kites,Downdrift,Blue,10 m,Unisex,884.2240169,1638.492904
+31,1,MC-DD-BL-12,McTavish Kites,Downdrift,Blue,12 m,Unisex,1501.39267,2669.61709
+32,1,MC-DD-BL-15,McTavish Kites,Downdrift,Blue,15 m,Unisex,1512.51413,2689.39209
+33,1,MC-SS-SL-8,McTavish Kites,Slipstream,Silver,8 m,Unisex,774.067,1434.36874
+34,1,MC-SS-SL-10,McTavish Kites,Slipstream,Silver,10 m,Unisex,782.49913,1449.99372
+35,1,MC-SS-SL-12,McTavish Kites,Slipstream,Silver,12 m,Unisex,1328.66608,2362.493
+36,1,MC-SS-SL-15,McTavish Kites,Slipstream,Silver,15 m,Unisex,1338.50808,2379.993
+37,1,MC-SS-BK-8,McTavish Kites,Slipstream,Black,8 m,Unisex,774.067,1434.36874
+38,1,MC-SS-BK-10,McTavish Kites,Slipstream,Black,10 m,Unisex,782.49913,1449.99372
+39,1,MC-SS-BK-12,McTavish Kites,Slipstream,Black,12 m,Unisex,1328.66608,2362.493
+40,1,MC-SS-BK-15,McTavish Kites,Slipstream,Black,15 m,Unisex,1338.50808,2379.993
+41,1,MC-SS-OR-8,McTavish Kites,Slipstream,Orange,8 m,Unisex,774.067,1434.36874
+42,1,MC-SS-OR-10,McTavish Kites,Slipstream,Orange,10 m,Unisex,782.49913,1449.99372
+43,1,MC-SS-OR-12,McTavish Kites,Slipstream,Orange,12 m,Unisex,1328.66608,2362.493
+44,1,MC-SS-OR-15,McTavish Kites,Slipstream,Orange,15 m,Unisex,1338.50808,2379.993
+45,1,MC-SS-BL-8,McTavish Kites,Slipstream,Blue,8 m,Unisex,774.067,1434.36874
+46,1,MC-SS-BL-10,McTavish Kites,Slipstream,Blue,10 m,Unisex,782.49913,1449.99372
+47,1,MC-SS-BL-12,McTavish Kites,Slipstream,Blue,12 m,Unisex,1328.66608,2362.493
+48,1,MC-SS-BL-15,McTavish Kites,Slipstream,Blue,15 m,Unisex,1338.50808,2379.993
+49,2,MB-SP-OR-62,McTavish Kites,Surfstep,Orange,"5' 2""",Unisex,413.1463,699.0982
+50,2,MB-SP-OR-64,McTavish Kites,Surfstep,Orange,"5' 4""",Unisex,513.1463,799.0982
+51,2,MB-SP-OR-74,McTavish Kites,Surfstep,Orange,"6' 2""",Unisex,613.1463,899.0982
+52,2,MB-SP-BL-62,McTavish Kites,Surfstep,Blue,"5' 2""",Unisex,413.1463,699.0982
+53,2,MB-SP-BL-64,McTavish Kites,Surfstep,Blue,"5' 4""",Unisex,513.1463,799.0982
+54,2,MB-SP-BL-74,McTavish Kites,Surfstep,Blue,"6' 2""",Unisex,613.1463,899.0982
+55,2,MB-SP-BK-62,McTavish Kites,Surfstep,Black,"5' 2""",Unisex,413.1463,699.0982
+56,2,MB-SP-BK-64,McTavish Kites,Surfstep,Black,"5' 4""",Unisex,513.1463,799.0982
+57,2,MB-SP-BK-74,McTavish Kites,Surfstep,Black,"6' 2""",Unisex,613.1463,899.0982
+58,2,MB-SF-OR-62,McTavish Kites,Splitsurf,Orange,"5' 2""",Unisex,578.40482,978.73748
+59,2,MB-SF-OR-64,McTavish Kites,Splitsurf,Orange,"5' 4""",Unisex,718.40482,1118.73748
+60,2,MB-SF-OR-74,McTavish Kites,Splitsurf,Orange,"6' 2""",Unisex,858.40482,1258.73748
+61,2,MB-SF-BL-62,McTavish Kites,Splitsurf,Blue,"5' 2""",Unisex,578.40482,978.73748
+62,2,MB-SF-BL-64,McTavish Kites,Splitsurf,Blue,"5' 4""",Unisex,718.40482,1118.73748
+63,2,MB-SF-BL-74,McTavish Kites,Splitsurf,Blue,"6' 2""",Unisex,858.40482,1258.73748
+64,2,MB-SF-BK-62,McTavish Kites,Splitsurf,Black,"5' 2""",Unisex,578.40482,978.73748
+65,2,MB-SF-BK-64,McTavish Kites,Splitsurf,Black,"5' 4""",Unisex,718.40482,1118.73748
+66,2,MB-SF-BK-74,McTavish Kites,Splitsurf,Black,"6' 2""",Unisex,858.40482,1258.73748
+67,2,MB-BS-OR-134,McTavish Kites,Booster,Orange,134 cm,Unisex,428.1463,714.0982
+68,2,MB-BS-OR-142,McTavish Kites,Booster,Orange,142 cm,Unisex,470.96093,785.50802
+69,2,MB-BS-OR-158,McTavish Kites,Booster,Orange,158 cm,Unisex,518.057023,864.058822
+70,2,MB-BS-BL-134,McTavish Kites,Booster,Blue,134 cm,Unisex,428.1463,714.0982
+71,2,MB-BS-BL-142,McTavish Kites,Booster,Blue,142 cm,Unisex,470.96093,785.50802
+72,2,MB-BS-BL-158,McTavish Kites,Booster,Blue,158 cm,Unisex,518.057023,864.058822
+73,2,MB-BS-SL-134,McTavish Kites,Booster,Silver,134 cm,Unisex,428.1463,714.0982
+74,2,MB-BS-SL-142,McTavish Kites,Booster,Silver,142 cm,Unisex,470.96093,785.50802
+75,2,MB-BS-SL-158,McTavish Kites,Booster,Silver,158 cm,Unisex,518.057023,864.058822
+76,3,MQ-ST-M-S,McQueen,Surf Trunks,Multi,S,Men's,18.56045,44.995
+77,3,MQ-ST-M-M,McQueen,Surf Trunks,Multi,M,Men's,18.56045,44.995
+78,3,MQ-ST-M-L,McQueen,Surf Trunks,Multi,L,Men's,18.56045,44.995
+79,3,MQ-SH-M-0,McQueen,Sunhat,Multi,0,Unisex,9.280225,22.4975
+80,3,MQ-JL-M-S,McQueen,Long Jersey,Multi,S,Unisex,31.7244,48.0673
+81,3,MQ-JL-M-M,McQueen,Long Jersey,Multi,M,Unisex,31.7244,48.0673
+82,3,MQ-JL-M-L,McQueen,Long Jersey,Multi,L,Unisex,31.7244,48.0673
+83,3,MQ-JS-M-S,McQueen,Short Jersey,Multi,S,Unisex,28.55196,43.26057
+84,3,MQ-JS-M-M,McQueen,Short Jersey,Multi,M,Unisex,28.55196,43.26057
+85,3,MQ-JS-M-L,McQueen,Short Jersey,Multi,L,Unisex,28.55196,43.26057
+86,3,RF-MS-M-S,Right Fit,Sport Shorts,Multi,S,Men's,26.1763,69.99
+87,3,RF-MS-M-M,Right Fit,Sport Shorts,Multi,M,Men's,26.1763,69.99
+88,3,RF-MS-M-L,Right Fit,Sport Shorts,Multi,L,Men's,26.1763,69.99
+89,3,RF-WS-M-S,Right Fit,Sport Shorts,Multi,S,Women's,24.7459,59.99
+90,3,RF-WS-M-M,Right Fit,Sport Shorts,Multi,M,Women's,24.7459,59.99
+91,3,RF-WS-M-L,Right Fit,Sport Shorts,Multi,L,Women's,24.7459,59.99
+92,3,RF-SH-M-S,Right Fit,Shorty Wetsuit,Black,S,Men's,123.7295,299.95
+93,3,RF-SH-M-M,Right Fit,Shorty Wetsuit,Black,M,Men's,123.7295,299.95
+94,3,RF-SH-M-L,Right Fit,Shorty Wetsuit,Black,L,Men's,123.7295,299.95
+95,3,RF-SH-W-S,Right Fit,Shorty Wetsuit,Black,S,Women's,117.543025,284.9525
+96,3,RF-SH-W-M,Right Fit,Shorty Wetsuit,Black,M,Women's,117.543025,284.9525
+97,3,RF-SH-W-L,Right Fit,Shorty Wetsuit,Black,L,Women's,117.543025,284.9525
+98,3,RF-FL-M-S,Right Fit,Full Wetsuit,Black,S,Men's,160.84835,389.935
+99,3,RF-FL-M-M,Right Fit,Full Wetsuit,Black,M,Men's,160.84835,389.935
+100,3,RF-FL-M-L,Right Fit,Full Wetsuit,Black,L,Men's,160.84835,389.935
+101,3,RF-FL-W-S,Right Fit,Full Wetsuit,Black,S,Women's,152.8059325,370.43825
+102,3,RF-FL-W-M,Right Fit,Full Wetsuit,Black,M,Women's,152.8059325,370.43825
+103,3,RF-FL-W-L,Right Fit,Full Wetsuit,Black,L,Women's,152.8059325,370.43825
+104,4,KR-TB-W-0,Kite Rite,Travel Bag,NA,0,Unisex,44.88,120
+105,4,KR-MP-W-0,Kite Rite,Minipump,NA,0,Unisex,8.2459,19.99
+106,4,KR-PP-W-0,Kite Rite,Pump,NA,0,Unisex,10.3084,24.99
+107,4,KR-BP-W-0,Kite Rite,Patch Kit,NA,0,Unisex,3.426,9.16
+108,4,KR-WM-W-0,Kite Rite,Wind Meter,NA,0,Unisex,16.4918,39.98
+109,4,MC-LE-SL-0,McTavish Kites,Safety Leash,NA,0,Unisex,14.96,40
+110,4,MC-SB-SL-0,McTavish Kites,Board Straps,NA,0,Unisex,58.7715125,142.47625
+111,4,MC-SS-SL-0,McTavish Kites,Surf Straps,NA,0,Unisex,38.7715125,122.47625
+112,4,MC-ST-SL-0,McTavish Kites,Sticker,NA,0,Unisex,0.25,

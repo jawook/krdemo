@@ -1,0 +1,57 @@
+RegionKey,Country,Province,Continent
+1,Canada,British Columbia,North America
+2,Canada,Ontario,North America
+3,Canada,Quebec,North America
+4,Canada,New Brunswick,North America
+5,Canada,Prince Edward Island,North America
+6,Canada,Nova Scotia,North America
+7,United States,California,North America
+8,United States,Oregon,North America
+9,United States,Washington,North America
+10,United States,Texas,North America
+11,United States,North Carolina,North America
+12,United States,Massachusetts,North America
+13,United States,Hawaii,North America
+14,United States,Florida,North America
+15,Mexico,,North America
+16,Nicaragua,,Central America
+17,Costa Rica,,Central America
+18,Cuba,,Central America
+19,Dominican Republic,,Central America
+20,France,,Europe
+21,Barbados,,Central America
+22,Netherlands,,Europe
+23,Colombia,,South America
+24,Peru,,South America
+25,Chile,,South America
+26,Argentina,,South America
+27,Brazil,,South America
+28,New Zealand,,Australia
+29,Fiji,,Australia
+30,Australia,,Australia
+31,Thailand,,Asia
+32,Indonesia,,Asia
+33,Vietnam,,Asia
+34,China,,Asia
+35,Taiwan,,Asia
+36,South Korea,,Asia
+37,Japan,,Asia
+38,Madagascar,,Africa
+39,Maldives,,Asia
+40,Mauritius,,Africa
+41,Yemen,,Asia
+42,Morocco,,Africa
+43,Namibia,,Africa
+44,South Africa,,Africa
+45,Mozambique,,Africa
+46,Kenya,,Africa
+47,Egypt,,Africa
+48,Tunisia,,Africa
+49,Ireland,,Europe
+50,Great Britain,,Europe
+51,Denmark,,Europe
+52,Portugal,,Europe
+53,Spain,,Europe
+54,Italy,,Europe
+55,Greece,,Europe
+56,Philippines,,Asia
