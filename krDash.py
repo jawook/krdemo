@@ -34,6 +34,9 @@ prods = pd.merge(left=prods, right=cats, on='CategoryKey', how='left')
 merge = pd.merge(left=merge, right=prods, on='ProductKey', how='left')
 merge = pd.merge(left=merge, right=regs, on='RegionKey', how='left')
 
-maxdate = st.date_input('Active Dates: ', max(merge['SoldDate']), 
-                        max_value=max(merge['SoldDate']), 
-                        min_value=min(merge['SoldDate']))
+maxdate = st.sidebar.date_input('Active Dates: ', max(merge['SoldDate']), 
+                                max_value=max(merge['SoldDate']), 
+                                min_value=min(merge['SoldDate']))
+mindate = st.sidebar.date_input('Active Dates: ', min(merge['SoldDate']), 
+                                max_value=max(merge['SoldDate']), 
+                                min_value=min(merge['SoldDate']))
