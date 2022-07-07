@@ -34,4 +34,5 @@ prods = pd.merge(left=prods, right=cats, on='CategoryKey', how='left')
 merge = pd.merge(left=merge, right=prods, on='ProductKey', how='left')
 merge = pd.merge(left=merge, right=regs, on='RegionKey', how='left')
 
-merge
+date = st.slider(max_value=max(merge['SoldDate']), 
+                 min_value=min(merge['SoldDate']))
