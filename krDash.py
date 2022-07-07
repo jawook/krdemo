@@ -27,16 +27,24 @@ regs = pd.read_csv('KiteRight Regions.csv')
 cats = pd.read_csv('KiteRight Categories.csv')
 
 prods = pd.read_csv('KiteRight Products.csv')
+prods = pd.merge(left=prods, right=cats, on='CategoryKey', how='left')
+prods['Twintip'] = [1 if j.endswith('cm') else 0 for j in prods['Size']]
+prods['Surfboard'] = [1 if j.endswith('"') else 0 for j in prods['Size']]
 
 merge = sales.copy()
 merge = pd.merge(left=sales, right=cust, on='CustomerKey', how='left')
-prods = pd.merge(left=prods, right=cats, on='CategoryKey', how='left')
 merge = pd.merge(left=merge, right=prods, on='ProductKey', how='left')
 merge = pd.merge(left=merge, right=regs, on='RegionKey', how='left')
 
-maxdate = st.sidebar.date_input('Active Dates: ', max(merge['SoldDate']), 
+mindate = st.sidebar.date_input('First date shown: ', min(merge['SoldDate']), 
                                 max_value=max(merge['SoldDate']), 
                                 min_value=min(merge['SoldDate']))
-mindate = st.sidebar.date_input('Active Dates: ', min(merge['SoldDate']), 
+
+maxdate = st.sidebar.date_input('Last date shown: ', max(merge['SoldDate']), 
                                 max_value=max(merge['SoldDate']), 
                                 min_value=min(merge['SoldDate']))
+
+limitMerge = merge[(merge['SoldDate'].dt.date >= mindate) & 
+                   (merge['SoldDate'].dt.date <= maxdate)]
+kiteData = limitMerge[limitMerge['CategoryName'] =='Kites'].groupby(by='Size')
+st.bar_chart(kiteData['SoldQuantity'].sum())
