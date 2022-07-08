@@ -5,6 +5,10 @@ Created on Thu Jul  7 15:12:31 2022
 @author: wilkijam
 """
 
+# To execute this locally from terminal: 
+# cd C:\Users\wilkijam\Personal GDrive\My Drive\Data Science Random\KiteRight Streamlit\krdemo
+# streamlit run krDash.py
+
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -64,50 +68,60 @@ dtLimitMerge = merge[(merge['SoldDate'].dt.date >= mindate) &
                    (merge['SoldDate'].dt.date <= maxdate)]
 
 #%% Creation of date-limited figures
+cs = px.colors.qualitative.Vivid
+
 kiteData = dtLimitMerge[dtLimitMerge['CategoryName'] =='Kites'].groupby(by='Size')
 kiteFig = px.bar(kiteData['SoldQuantity'].sum().sort_values(),
                  orientation='h', title='Kite Quantity Sold by Size',
-                 color_discrete_sequence=px.colors.qualitative.Vivid)
+                 color_discrete_sequence=cs)
 kiteFig.layout.update(showlegend=False)
 
 sBrdData = dtLimitMerge[(dtLimitMerge['CategoryName'] =='Boards') &
                       (dtLimitMerge['Surfboard'] == 1)].groupby(by='Size')
 sBrdFig = px.bar(sBrdData['SoldQuantity'].sum().sort_values(),
                  orientation='h', title='Surfboard Quantity Sold by Size',
-                 color_discrete_sequence=px.colors.qualitative.Vivid)
+                 color_discrete_sequence=cs)
 sBrdFig.layout.update(showlegend=False)
 
 tTipData = dtLimitMerge[(dtLimitMerge['CategoryName'] =='Boards') &
                       (dtLimitMerge['Twintip'] == 1)].groupby(by='Size')
 tTipFig = px.bar(tTipData['SoldQuantity'].sum().sort_values(),
                  orientation='h', title='Twintip Quantity Sold by Size',
-                 color_discrete_sequence=px.colors.qualitative.Vivid)
+                 color_discrete_sequence=cs)
 tTipFig.layout.update(showlegend=False)
 
 clthData = dtLimitMerge[(dtLimitMerge['CategoryName'] == 
                        'Clothing')].groupby(by='Size')
 clthFig = px.bar(clthData['SoldQuantity'].sum().sort_values(),
                  orientation='h', title='Clothing Quantity Sold by Size',
-                 color_discrete_sequence=px.colors.qualitative.Vivid)
+                 color_discrete_sequence=cs)
 clthFig.layout.update(showlegend=False)
 
 trmpFig = px.treemap(dtLimitMerge, 
                      path=[px.Constant("All"), 'CategoryName'], 
                      values='SoldQuantity', 
                      title='Quantity Sold by Product Category',
-                     color_discrete_sequence=px.colors.qualitative.Vivid)
+                     color_discrete_sequence=cs)
 
 #%% Creation of date and category limited figures
 
-if catSel==[]:
-    dcLimitMerge = dtLimitMerge.copy()
-else:
-    dcLimitMerge = dtLimitMerge[dtLimitMerge['CategoryName'].isin(catSel)]
+@st.cache
+def limCat(catList, dfin):
+    if catList==[]:
+        dcLimitMerge = dfin.copy()
+    else:
+        dcLimitMerge = dfin[dfin['CategoryName'].isin(catList)]
+    return dcLimitMerge
 
-wkSalesFig = px.bar(dcLimitMerge,
+dcLimitMerge = limCat(catSel, dtLimitMerge)
+
+wkSalesData = dcLimitMerge.groupby(by=['SoldFDoW', 'CategoryName']).sum()['SoldQuantity'].unstack()
+
+wkSalesFig = px.bar(wkSalesData,
                     title='Orders by Week',
-                    x='SoldFDoW', y='SoldQuantity',
-                    color_discrete_sequence=px.colors.qualitative.Vivid)
+                    # x='SoldFDoW', y='SoldQuantity', color='CategoryName',
+                    color_discrete_sequence=cs)
+wkSalesFig.layout.update(showlegend=False)
 
 #%% Dashboard construction
 st.header('KiteRight: Analysis of Product Orders')
@@ -124,4 +138,4 @@ with quadChartR:
     st.plotly_chart(tTipFig, use_container_width=True)
     st.plotly_chart(clthFig, use_container_width=True)
     
-st.write(catSel)
+st.plotly_chart(wkSalesFig)
