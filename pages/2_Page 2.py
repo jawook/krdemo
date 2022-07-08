@@ -2,7 +2,6 @@
 """
 Created on Fri Jul  8 16:57:26 2022
 
-@author: wilkijam
 """
 
 import streamlit as st
