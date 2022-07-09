@@ -112,10 +112,18 @@ def limCat(catList, dfin):
 dcLimitMerge = limCat(catSel, dtLimitMerge)
 
 wkSalesData = dcLimitMerge.groupby(by=['SoldFDoW', 'CategoryName']).sum()['SoldQuantity'].unstack()
-
-wkSalesFig = px.bar(wkSalesData,
-                    title='Orders by Week')
+wkSalesFig = px.bar(wkSalesData)
 wkSalesFig.layout.update(showlegend=False)
+
+sumTblData = dcLimitMerge.groupby(by=['CategoryName', 'Model']
+                                  ).agg({'SoldQuantity': 'sum',
+                                         'Price': 'mean'})
+sumTblData.sort_values('SoldQuantity', inplace=True, ascending=False)
+sumTblData = sumTblData.reset_index()
+sumTblData.rename(columns={'CategoryName': 'Category',
+                           'SoldQuantity': 'Quantity Sold',
+                           'Price': 'Avg. Price'},
+                  inplace=True)
 
 #%% Dashboard construction
 st.header('KiteRight: Analysis of Product Orders')
@@ -131,5 +139,12 @@ with quadChartL:
 with quadChartR:
     st.plotly_chart(tTipFig, use_container_width=True)
     st.plotly_chart(clthFig, use_container_width=True)
-    
+
+st.subheader('Weekly Orders')    
 st.plotly_chart(wkSalesFig)
+
+st.subheader('Top Selling Models')
+st.table(sumTblData.style.format({'Quantity Sold': "{:,}",
+                                  'Avg. Price': "${:,.2f}"}))
+
+st.subheader('Orders by Region')
