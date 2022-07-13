@@ -4,33 +4,46 @@ Created on Thu Jul  7 15:12:31 2022
 
 @author: wilkijam
 """
-
+#!! MAKE A CUSTOMER SELECTOR THAT INCLUDES A FEW PIECES OF DETAIL!!
 # To execute this locally from terminal: 
 # cd C:\Users\wilkijam\Personal GDrive\My Drive\Data Science Random\KiteRight Streamlit\krdemo
 # streamlit run krDash.py
 
+#%% Load required packages and set defaults
 import streamlit as st
 import pandas as pd
 import plotly.express as px
 import urllib.request, json
+import datetime as dt
+import numpy as np
 
 px.defaults.color_discrete_sequence = px.colors.qualitative.Vivid
 
+#%% Load & merge data
 @st.cache
 def loadMerge():
     cust = pd.read_csv('KiteRight Customers.csv', encoding_errors='ignore')
     cust['BirthDate'] = pd.to_datetime(cust['BirthDate'])
-    cust['Income'] = cust['Income'].str.replace(r'[$,]', '', regex=True)
+    cust['Income'] = cust['Income'].str.replace(r'[$,]', '', regex=True).astype(int)
     cust['FullName'] = (cust['FirstName'].str.title() + ' ' + 
                         cust['LastName'].str.title())
-    
+    cust['Age'] = np.floor((dt.datetime.today() - 
+                            pd.to_datetime(cust['BirthDate'])).dt.days /
+                           365.25)
+    incLabels = ['Low', 'Average', 'High', 'Very High']
+    incBins = [0, 60000, 100000, 150000, 1000000]
+    cust['IncLevel'] = pd.cut(cust['Income'], bins=incBins,
+                              labels=incLabels)
+
     sales = pd.read_csv('KiteRight Sales.csv')
     sales['InventoryDate'] = pd.to_datetime(sales['InventoryDate'])
     sales['SoldDate'] = pd.to_datetime(sales['SoldDate'])
     sales['SoldISOWeek'] = sales['SoldDate'].dt.isocalendar().week
     sales['SoldISOYear'] = sales['SoldDate'].dt.isocalendar().year
     sales['SoldISODoW'] = sales['SoldDate'].dt.dayofweek
-    sales['SoldFDoW'] = sales['SoldDate'] - pd.TimedeltaIndex(sales['SoldDate'].dt.dayofweek, unit='d')
+    sales['SoldFDoW'] = (sales['SoldDate'] - 
+                         pd.TimedeltaIndex(sales['SoldDate'].dt.dayofweek, 
+                                           unit='d'))
     sales['SoldYear'] = sales['SoldDate'].dt.year
     
     regs = pd.read_csv('KiteRight Regions.csv')
@@ -46,12 +59,18 @@ def loadMerge():
     merge = pd.merge(left=sales, right=cust, on='CustomerKey', how='left')
     merge = pd.merge(left=merge, right=prods, on='ProductKey', how='left')
     merge = pd.merge(left=merge, right=regs, on='RegionKey', how='left')
-    
-    return merge
 
-merge = loadMerge()
+    merge['Revenue'] = merge['Price'] * merge['SoldQuantity']
+    merge['COGS'] = merge['Cost'] * merge['SoldQuantity']
+    
+    lst = merge, cust, sales, regs, cats, prods
+    
+    return lst
+
+(merge, cust, sales, regs, cats, prods) = loadMerge()
 
 #%% Get get lat/lon coordinates for mapping later
+@st.cache
 def getCoJson():
     urlCo = "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/countries.json"
     with urllib.request.urlopen(urlCo) as url:
@@ -63,6 +82,7 @@ def getCoJson():
     jsonCo['longitude'] = jsonCo['longitude'].astype(float)
     return jsonCo
     
+@st.cache
 def getProvJson():
     urlProv = "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/states.json"
     with urllib.request.urlopen(urlProv) as url:
@@ -76,8 +96,14 @@ def getProvJson():
 
 jsonProv = getProvJson()
 jsonCo = getCoJson()
+    
+#%% Sidebar
 
-#%% Constraints for page
+pagePick = st.sidebar.radio('Select a page to show', 
+                            ['Overview of Units Sold',
+                             'Customer Overview',
+                             'Customer Detail'])
+
 mindate = st.sidebar.date_input('First date shown: ', 
                                 min(merge['SoldDate']), 
                                 max_value=max(merge['SoldDate']), 
@@ -98,33 +124,48 @@ dtLimitMerge = merge[(merge['SoldDate'].dt.date >= mindate) &
 #%% Creation of date-limited figures
 # cs = px.colors.qualitative.Vivid
 
-kiteData = dtLimitMerge[dtLimitMerge['CategoryName'] =='Kites'].groupby(by='Size')
-kiteFig = px.bar(kiteData['SoldQuantity'].sum().sort_values(),
-                 orientation='v', title='Kite Quantity Sold by Size')
-kiteFig.layout.update(showlegend=False, yaxis_title='', yaxis_tickformat=",.0d")
+@st.cache
+def kiteFig(df):
+    kiteData = df[df['CategoryName'] =='Kites'].groupby(by='Size')
+    kiteFig = px.bar(kiteData['SoldQuantity'].sum().sort_values(),
+                     orientation='v', title='Kite Quantity Sold by Size')
+    kiteFig.layout.update(showlegend=False, yaxis_title='', yaxis_tickformat=",.0d")
+    return kiteFig
 
-sBrdData = dtLimitMerge[(dtLimitMerge['CategoryName'] =='Boards') &
-                      (dtLimitMerge['Surfboard'] == 1)].groupby(by='Size')
-sBrdFig = px.bar(sBrdData['SoldQuantity'].sum().sort_values(),
-                 orientation='v', title='Surfboard Quantity Sold by Size')
-sBrdFig.layout.update(showlegend=False, yaxis_title='', yaxis_tickformat=",.0d")
+@st.cache
+def sBrdFig(df):
+    sBrdData = df[(df['CategoryName'] =='Boards') &
+                  (df['Surfboard'] == 1)].groupby(by='Size')
+    sBrdFig = px.bar(sBrdData['SoldQuantity'].sum().sort_values(),
+                     orientation='v', title='Surfboard Quantity Sold by Size')
+    sBrdFig.layout.update(showlegend=False, yaxis_title='', yaxis_tickformat=",.0d")
+    return sBrdFig
 
-tTipData = dtLimitMerge[(dtLimitMerge['CategoryName'] =='Boards') &
-                      (dtLimitMerge['Twintip'] == 1)].groupby(by='Size')
-tTipFig = px.bar(tTipData['SoldQuantity'].sum().sort_values(),
-                 orientation='v', title='Twintip Quantity Sold by Size')
-tTipFig.layout.update(showlegend=False, yaxis_title='', yaxis_tickformat=",.0d")
+@st.cache
+def tTipFig(df):
+    tTipData = df[(df['CategoryName'] =='Boards') &
+                  (df['Twintip'] == 1)].groupby(by='Size')
+    tTipFig = px.bar(tTipData['SoldQuantity'].sum().sort_values(),
+                     orientation='v', title='Twintip Quantity Sold by Size')
+    tTipFig.layout.update(showlegend=False, yaxis_title='', yaxis_tickformat=",.0d")
+    return tTipFig
 
-clthData = dtLimitMerge[(dtLimitMerge['CategoryName'] == 
-                       'Clothing')].groupby(by='Size')
-clthFig = px.bar(clthData['SoldQuantity'].sum().sort_values(),
-                 orientation='v', title='Clothing Quantity Sold by Size')
-clthFig.layout.update(showlegend=False, yaxis_title='', yaxis_tickformat=",.0d")
+@st.cache
+def clthFig(df):
+    clthData = dtLimitMerge[(df['CategoryName'] == 
+                           'Clothing')].groupby(by='Size')
+    clthFig = px.bar(clthData['SoldQuantity'].sum().sort_values(),
+                     orientation='v', title='Clothing Quantity Sold by Size')
+    clthFig.layout.update(showlegend=False, yaxis_title='', yaxis_tickformat=",.0d")
+    return clthFig
 
-trmpFig = px.treemap(dtLimitMerge, 
-                     path=[px.Constant("All"), 'CategoryName'], 
-                     values='SoldQuantity', 
-                     title='Quantity Sold by Product Category')
+@st.cache
+def trmpFig(df): 
+    trmpFig = px.treemap(df, 
+                         path=[px.Constant("All"), 'CategoryName'], 
+                         values='SoldQuantity', 
+                         title='Quantity Sold by Product Category')
+    return trmpFig
 
 #%% Creation of date and category limited figures
 
@@ -138,19 +179,26 @@ def limCat(catList, dfin):
 
 dcLimitMerge = limCat(catSel, dtLimitMerge)
 
-wkSalesData = dcLimitMerge.groupby(by=['SoldFDoW', 'CategoryName']).sum()['SoldQuantity'].unstack()
-wkSalesFig = px.bar(wkSalesData)
-wkSalesFig.layout.update(showlegend=False, yaxis_tickformat=",.0d")
+@st.cache(allow_output_mutation=True)
+def wkSalesFig(df):
+    wkSalesData = df.groupby(by=['SoldFDoW', 
+                                 'CategoryName']).sum()['SoldQuantity'].unstack()
+    wkSalesFig = px.bar(wkSalesData)
+    wkSalesFig.layout.update(showlegend=False, yaxis_tickformat=",.0d")
+    return wkSalesFig
 
-sumTblData = dcLimitMerge.groupby(by=['CategoryName', 'Model']
-                                  ).agg({'SoldQuantity': 'sum',
-                                         'Price': 'mean'})
-sumTblData.sort_values('SoldQuantity', inplace=True, ascending=False)
-sumTblData = sumTblData.reset_index()
-sumTblData.rename(columns={'CategoryName': 'Category',
-                           'SoldQuantity': 'Quantity Sold',
-                           'Price': 'Avg. Price'},
-                  inplace=True)
+@st.cache
+def sumTblData(df):
+    sumTblData = df.groupby(by=['CategoryName', 'Model']
+                                      ).agg({'SoldQuantity': 'sum',
+                                             'Price': 'mean'})
+    sumTblData.sort_values('SoldQuantity', inplace=True, ascending=False)
+    sumTblData = sumTblData.reset_index()
+    sumTblData.rename(columns={'CategoryName': 'Category',
+                               'SoldQuantity': 'Quantity Sold',
+                               'Price': 'Avg. Price'},
+                      inplace=True)
+    return sumTblData
 
 @st.cache
 def mapDriver(option):
@@ -169,34 +217,110 @@ def mapDriver(option):
     mapData.dropna(inplace=True)
     return mapData
 
-#%% Dashboard construction
-st.header('KiteRight: Analysis of Product Orders')
-st.subheader('Sales Quantity by Product Category')
+@st.cache(allow_output_mutation=True)
+def mapFig(df, sel):
+    mapFig = px.scatter_geo(df, lat='latitude', lon='longitude', 
+                            size='SoldQuantity', hover_name=sel,
+                            size_max=40)
+    return mapFig
 
-st.plotly_chart(trmpFig, use_container_width=True)
+#%% Customer overview calculations & figures
+numCusts = len(pd.unique(cust['CustomerKey']))
+aveAge = cust['Age'].mean()
+aveInc = cust['Income'].mean()
 
-quadChartL, quadChartR = st.columns(2)
-with quadChartL:
-    st.plotly_chart(kiteFig, use_container_width=True)
-    st.plotly_chart(sBrdFig, use_container_width=True)
+@st.cache
+def ordByGendFig():
+    ordByGendData = dcLimitMerge.groupby(by='Gender').agg({'SoldQuantity': 'sum'})
+    ordByGendData.sort_values(by='SoldQuantity', ascending=False, inplace=True)
+    ordByGendFig = px.bar(ordByGendData, orientation='v',
+                          title='Units Sold by Gender')
+    ordByGendFig.layout.update(showlegend=False, yaxis_title='', yaxis_tickformat=",.0d")
+    return ordByGendFig
+
+@st.cache
+def ordByIncFig():
+    ordByIncData = dcLimitMerge.groupby(by='IncLevel').agg({'SoldQuantity': 'sum'})
+    ordByIncData.sort_values(by='SoldQuantity', ascending=False, inplace=True)
+    ordByIncFig = px.bar(ordByIncData, orientation='v',
+                         title='Units Sold by Income Category')
+    ordByIncFig.layout.update(showlegend=False, yaxis_title='', yaxis_tickformat=",.0d")
+    return ordByIncFig
+
+@st.cache
+def ordByChildFig():
+    ordByChildData = dcLimitMerge.groupby(by='Children').agg({'SoldQuantity': 'sum'})
+    ordByChildData.sort_values(by='SoldQuantity', ascending=False, inplace=True)
+    ordByChildFig = px.bar(ordByChildData, orientation='v',
+                         title='Units Sold by # of Children')
+    ordByChildFig.layout.update(showlegend=False, yaxis_title='', 
+                                yaxis_tickformat=",.0d", xaxis_dtick=1)
+    return ordByChildFig
+
+def topCustTable(df):
+    topCustData = df.groupby(by='CustomerKey').agg({'FullName': 'first',
+                                                    'SoldQuantity': 'sum',
+                                                    'Revenue': 'sum'})
+    topCustData.sort_values(by='Revenue', ascending=False, inplace=True)
+    topCustData.reset_index()
+    topCustData.rename(columns={'FullName': 'Name',
+                                'Sold Quantity': 'Units Bought'},
+                       inplace=True)
+    return topCustData
     
-with quadChartR:
-    st.plotly_chart(tTipFig, use_container_width=True)
-    st.plotly_chart(clthFig, use_container_width=True)
+#%% Dashboard construction
+def pgSold():
+    st.header('KiteRight: Analysis of Product Orders')
+    st.subheader('Sales Quantity by Product Category')
+    
+    st.plotly_chart(trmpFig(dtLimitMerge), use_container_width=True)
+    
+    quadChartL, quadChartR = st.columns(2)
+    with quadChartL:
+        st.plotly_chart(kiteFig(dtLimitMerge), use_container_width=True)
+        st.plotly_chart(sBrdFig(dtLimitMerge), use_container_width=True)
+        
+    with quadChartR:
+        st.plotly_chart(tTipFig(dtLimitMerge), use_container_width=True)
+        st.plotly_chart(clthFig(dtLimitMerge), use_container_width=True)
+    
+    st.subheader('Weekly Orders')    
+    st.plotly_chart(wkSalesFig(dcLimitMerge))
+    
+    st.subheader('Top Selling Models')
+    st.table(sumTblData(dcLimitMerge).style.format({'Quantity Sold': "{:,}",
+                                        'Avg. Price': "${:,.2f}"}))
+    
+    st.subheader('Orders by Region')
+    radioMap = st.radio('Which geography level would you like to show?', 
+                        ['Country', 'Province'])
+    st.plotly_chart(mapFig(mapDriver(radioMap), radioMap))
+    
+def pgCustomers():
+    st.header('KiteRight: Analysis of Customers')
+    st.subheader('Key Statistics')
+    
+    st.write(('Total Customers: {:,}').format(numCusts))
+    st.write(('Average age: {:,.0f}').format(aveAge))
+    st.write(('Average income: ${:,.0f}').format(aveInc))
 
-st.subheader('Weekly Orders')    
-st.plotly_chart(wkSalesFig)
-
-st.subheader('Top Selling Models')
-st.table(sumTblData.style.format({'Quantity Sold': "{:,}",
-                                  'Avg. Price': "${:,.2f}"}))
-
-st.subheader('Orders by Region')
-radioMap = st.radio('Which geography level would you like to show?', 
-                    ['Country', 'Province'])
-mapData = mapDriver(radioMap)
-# mapFig = st.map(mapData)
-# mapFig
-mapFig2 = px.scatter_geo(mapData, lat='latitude', lon='longitude', 
-                         size='SoldQuantity', hover_name=radioMap)
-mapFig2
+    keyStatsL, keyStatsR = st.columns(2)
+    with keyStatsL:
+        st.plotly_chart(ordByGendFig(), use_container_width=True)
+        st.plotly_chart(ordByChildFig(), use_container_width=True)
+    with keyStatsR:
+        st.plotly_chart(ordByIncFig(), use_container_width=True)
+    
+    st.subheader('Top Customers Summary')
+    st.table(topCustTable(dcLimitMerge)[:35].style.format({'Units Bought': "{:,}",
+                                                           'Revenue': "${:,.2f}"}))
+def pgCustDetail():
+    st.header('KiteRight: Individual Customer Detail')
+    
+    
+if pagePick == 'Overview of Units Sold':
+    pgSold()
+elif pagePick == 'Customer Overview':
+    pgCustomers()
+elif pagePick == 'Customer Detail':
+    pgCustDetail()
