@@ -299,7 +299,7 @@ def pgCustomers():
                                                            'Revenue': "${:,.2f}"}))
 def pgCustDetail():
     st.header('KiteRight: Individual Customer Detail')
-    st.selectbox('Selected customer: ', options=custList)
+    selCust = st.selectbox('Selected customer: ', options=custList)
         
 if pagePick == 'Overview of Units Sold':
     pgSold()
