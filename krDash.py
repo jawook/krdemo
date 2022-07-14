@@ -73,6 +73,7 @@ def loadMerge():
 (merge, cust, sales, regs, cats, prods) = loadMerge()
 
 #%% Get get lat/lon coordinates for mapping later
+@st.cache(allow_output_mutation=True)
 def getCoJson():
     urlCo = "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/countries.json"
     with urllib.request.urlopen(urlCo) as url:
@@ -83,7 +84,8 @@ def getCoJson():
     jsonCo['latitude'] = jsonCo['latitude'].astype(float)
     jsonCo['longitude'] = jsonCo['longitude'].astype(float)
     return jsonCo
-    
+
+@st.cache(allow_output_mutation=True)    
 def getProvJson():
     urlProv = "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/states.json"
     with urllib.request.urlopen(urlProv) as url:
