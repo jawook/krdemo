@@ -305,8 +305,12 @@ def pgCustomers():
 def pgCustDetail():
     st.header('KiteRight: Individual Customer Detail')
     selCust = st.selectbox('Selected customer: ', options=custList)
+    custTrans = pullCustData(dcLimitMerge, selCust)
     
-    st.dataframe(pullCustData(dcLimitMerge, selCust))
+    st.subheader('Customer Details: ')
+    st.write(str(custTrans['FullName'].unique()[0]))
+    st.write('Total Revenue : ${:,.0f}'.format(sum(custTrans['Revenue'])))
+    st.dataframe(custTrans)
         
 if pagePick == 'Overview of Units Sold':
     pgSold()
