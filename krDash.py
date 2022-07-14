@@ -13,7 +13,6 @@ Created on Thu Jul  7 15:12:31 2022
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-import urllib.request, json
 import datetime as dt
 import numpy as np
 
