@@ -328,7 +328,6 @@ def pgCustDetail():
     with custDetR:
         st.markdown('**Income Level:** ' + str(custTrans['IncLevel'].unique()[0]))
         st.markdown('**Age :** {:,.0f}'.format(custTrans['Age'].unique()[0]))
-    st.dataframe(custTrans)
     st.table(custProds.style.format({'Units Bought': "{:,}",
                                      'Revenue': "${:,.2f}"}))
         
