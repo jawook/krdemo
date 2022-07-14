@@ -256,6 +256,15 @@ def pullCustData(df, sel):
     custData = df[df['listValue']==sel]
     return custData
 
+@st.cache
+def pullCustProds(df):
+    custProds = df.groupby(by=['CategoryName', 'Model']).agg({'SoldQuantity': 'sum',
+                                                              'Revenue': 'sum'})
+    custProds = custProds.reset_index()
+    custProds.rename(columns={'CategoryName': 'Category',
+                              'SoldQuantity': 'Units Bought'})
+    return custProds
+
 #%% Dashboard construction
 def pgSold():
     st.header('KiteRight: Analysis of Product Orders')
@@ -306,11 +315,21 @@ def pgCustDetail():
     st.header('KiteRight: Individual Customer Detail')
     selCust = st.selectbox('Selected customer: ', options=custList)
     custTrans = pullCustData(dcLimitMerge, selCust)
+    custProds = pullCustProds(custTrans)
     
     st.subheader('Customer Details: ')
     st.write(str(custTrans['FullName'].unique()[0]))
-    st.write('Total Revenue : ${:,.0f}'.format(sum(custTrans['Revenue'])))
+    
+    custDetL, custDetR = st.columns(2)
+    with custDetL:
+        st.markdown('**Total Revenue:** ${:,.0f}'.format(sum(custTrans['Revenue'])))
+        st.markdown('**Units Sold:** {:,.0f}'.format(sum(custTrans['SoldQuantity'])))
+    with custDetR:
+        st.markdown('**Income Level:** ' + str(custTrans['IncLevel'].unique()[0]))
+        st.markdown('**Age :** {:,.0f}'.format(custTrans['Age'].unique()[0]))
     st.dataframe(custTrans)
+    st.table(custProds.style.format({'Units Bought': "{:,}",
+                                     'Revenue': "${:,.2f}"}))
         
 if pagePick == 'Overview of Units Sold':
     pgSold()
