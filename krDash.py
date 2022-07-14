@@ -34,6 +34,9 @@ def loadMerge():
     incBins = [0, 60000, 100000, 150000, 1000000]
     cust['IncLevel'] = pd.cut(cust['Income'], bins=incBins,
                               labels=incLabels)
+    cust['login'] = [x.split('@')[0] for x in cust['Email']]
+    cust['listValue'] = (cust['FullName'] + ' - ' + cust['login'] + 
+                         ' - ' + cust['CustomerKey'].astype(str))
 
     sales = pd.read_csv('KiteRight Sales.csv')
     sales['InventoryDate'] = pd.to_datetime(sales['InventoryDate'])
@@ -268,6 +271,11 @@ def topCustTable(df):
                        inplace=True)
     return topCustData
     
+#%% Customer detail calculations
+
+# Build a list for the selectbox that contains customerID
+custList = cust['listValue'].sort_values()
+
 #%% Dashboard construction
 def pgSold():
     st.header('KiteRight: Analysis of Product Orders')
@@ -316,8 +324,8 @@ def pgCustomers():
                                                            'Revenue': "${:,.2f}"}))
 def pgCustDetail():
     st.header('KiteRight: Individual Customer Detail')
-    
-    
+    st.selectbox('Selected customer: ', options=custList)
+        
 if pagePick == 'Overview of Units Sold':
     pgSold()
 elif pagePick == 'Customer Overview':
