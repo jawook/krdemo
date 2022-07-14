@@ -292,7 +292,8 @@ def pgSold():
     st.subheader('Orders by Region')
     radioMap = st.radio('Which geography level would you like to show?', 
                         ['Country', 'Province'])
-    st.plotly_chart(mapFig(mapDriver(radioMap), radioMap))
+    st.plotly_chart(mapFig(mapDriver(radioMap), radioMap), 
+                    use_container_width=True)
     
 def pgCustomers():
     st.header('KiteRight: Analysis of Customers')
