@@ -283,7 +283,7 @@ def pgSold():
         st.plotly_chart(clthFig(dtLimitMerge), use_container_width=True)
     
     st.subheader('Weekly Orders')    
-    st.plotly_chart(wkSalesFig(dcLimitMerge))
+    st.plotly_chart(wkSalesFig(dcLimitMerge), use_container_width=True)
     
     st.subheader('Top Selling Models')
     st.table(sumTblData(dcLimitMerge).style.format({'Quantity Sold': "{:,}",
