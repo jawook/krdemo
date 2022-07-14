@@ -251,6 +251,11 @@ def topCustTable(df):
 # Build a list for the selectbox that contains customerID
 custList = cust['listValue'].sort_values()
 
+@st.cache
+def pullCustData(df, sel):
+    custData = df[df['listValue']==sel]
+    return custData
+
 #%% Dashboard construction
 def pgSold():
     st.header('KiteRight: Analysis of Product Orders')
@@ -300,6 +305,8 @@ def pgCustomers():
 def pgCustDetail():
     st.header('KiteRight: Individual Customer Detail')
     selCust = st.selectbox('Selected customer: ', options=custList)
+    
+    st.dataframe(pullCustData(dcLimitMerge, selCust))
         
 if pagePick == 'Overview of Units Sold':
     pgSold()
