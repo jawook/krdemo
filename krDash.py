@@ -262,7 +262,8 @@ def pullCustProds(df):
                                                               'Revenue': 'sum'})
     custProds = custProds.reset_index()
     custProds.rename(columns={'CategoryName': 'Category',
-                              'SoldQuantity': 'Units Bought'})
+                              'SoldQuantity': 'Units Bought'},
+                     inplace=True)
     return custProds
 
 #%% Dashboard construction
