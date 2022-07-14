@@ -72,7 +72,8 @@ def loadMerge():
 
 (merge, cust, sales, regs, cats, prods) = loadMerge()
 
-
+jsonCo = pd.read_csv('jsonCo.csv')
+jsonProv = pd.read_csv('jsonProv.csv')
     
 #%% Sidebar
 
