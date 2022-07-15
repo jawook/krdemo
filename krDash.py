@@ -319,18 +319,21 @@ def pgCustDetail():
     custProds = pullCustProds(custTrans)
     
     st.subheader('Customer Details: ')
-    st.write(str(custTrans['FullName'].unique()[0]))
+    if len(custTrans)==0:
+        st.markdown('**No transactions for this customer under these filter criteria**')
+    else:
+        st.write(str(custTrans['FullName'].unique()[0]))
     
-    custDetL, custDetR = st.columns(2)
-    with custDetL:
-        st.markdown('**Total Revenue:** ${:,.0f}'.format(sum(custTrans['Revenue'])))
-        st.markdown('**Units Sold:** {:,.0f}'.format(sum(custTrans['SoldQuantity'])))
-    with custDetR:
-        st.markdown('**Income Level:** ' + str(custTrans['IncLevel'].unique()[0]))
-        st.markdown('**Age :** {:,.0f}'.format(custTrans['Age'].unique()[0]))
-    st.table(custProds.style.format({'Units Bought': "{:,}",
-                                     'Revenue': "${:,.2f}"}))
-        
+        custDetL, custDetR = st.columns(2)
+        with custDetL:
+            st.markdown('**Total Revenue:** ${:,.0f}'.format(sum(custTrans['Revenue'])))
+            st.markdown('**Units Sold:** {:,.0f}'.format(sum(custTrans['SoldQuantity'])))
+        with custDetR:
+            st.markdown('**Income Level:** ' + str(custTrans['IncLevel'].unique()[0]))
+            st.markdown('**Age :** {:,.0f}'.format(custTrans['Age'].unique()[0]))
+        st.table(custProds.style.format({'Units Bought': "{:,}",
+                                         'Revenue': "${:,.2f}"}))
+            
 if pagePick == 'Overview of Units Sold':
     pgSold()
 elif pagePick == 'Customer Overview':
