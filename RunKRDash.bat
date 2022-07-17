@@ -1,0 +1,2 @@
+@ECHO OFF
+C:\Users\wilkijam\anaconda3\Scripts\activate.bat C:\Users\wilkijam\anaconda3\envs\py39\ & streamlit run "C:\Users\wilkijam\Personal GDrive\My Drive\Data Science Random\KiteRight Streamlit\krdemo\krDash.py" --server.port 8501
