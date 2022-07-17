@@ -103,8 +103,8 @@ dtLimitMerge = merge[(merge['SoldDate'].dt.date >= mindate) &
 
 @st.cache
 def kiteFig(df):
-    kiteData = df[df['CategoryName'] =='Kites'].groupby(by=['Size', 'Colour'])
-    kiteFig = px.bar(kiteData.sum().sort_values(by='Size').unstack(), color='Colour',
+    kiteData = df[df['CategoryName'] =='Kites'].groupby(by='Size')
+    kiteFig = px.bar(kiteData['SoldQuantity'].sum().sort_values(),
                      orientation='v', title='Kite Quantity Sold by Size')
     kiteFig.layout.update(showlegend=False, yaxis_title='', yaxis_tickformat=",.0d")
     return kiteFig
@@ -139,7 +139,7 @@ def clthFig(df):
 @st.cache
 def trmpFig(df): 
     trmpFig = px.treemap(df, 
-                         path=[px.Constant("All"), 'CategoryName', 'Manufacturer', 'Model'], 
+                         path=[px.Constant("All"), 'CategoryName'], 
                          values='SoldQuantity', 
                          title='Quantity Sold by Product Category')
     return trmpFig
@@ -298,9 +298,9 @@ def pgCustomers():
     st.header('KiteRight: Analysis of Customers')
     st.subheader('Key Statistics')
     
-    st.markdown(('**Total Customers:** {:,}').format(numCusts))
-    st.markdown(('**Average age:** {:,.0f}').format(aveAge))
-    st.markdown(('**Average income:** ${:,.0f}').format(aveInc))
+    st.write(('Total Customers: {:,}').format(numCusts))
+    st.write(('Average age: {:,.0f}').format(aveAge))
+    st.write(('Average income: ${:,.0f}').format(aveInc))
 
     keyStatsL, keyStatsR = st.columns(2)
     with keyStatsL:
