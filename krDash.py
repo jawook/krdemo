@@ -322,7 +322,7 @@ def pgCustDetail():
     if len(custTrans)==0:
         st.markdown('**No transactions for this customer under these filter criteria**')
     else:
-        st.write(str(custTrans['FullName'].unique()[0]))
+        st.markdown('**' + str(custTrans['FullName'].unique()[0]) + '**')
     
         custDetL, custDetR = st.columns(2)
         with custDetL:
