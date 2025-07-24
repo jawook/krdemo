@@ -159,7 +159,7 @@ dcLimitMerge = limCat(catSel, dtLimitMerge)
 @st.cache_data
 def wkSalesFig(df):
     wkSalesData = df.groupby(by=['SoldFDoW', 
-                                 'CategoryName'])['SoldQuantity'].max().unstack()
+                                 'CategoryName'])['SoldQuantity'].sum().unstack()
     wkSalesFig = px.bar(wkSalesData)
     wkSalesFig.layout.update(showlegend=False, yaxis_tickformat=",.0d")
     return wkSalesFig
