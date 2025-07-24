@@ -19,7 +19,7 @@ import numpy as np
 px.defaults.color_discrete_sequence = px.colors.qualitative.Vivid
 
 #%% Load & merge data
-@st.cache
+@st.cache_data
 def loadMerge():
     cust = pd.read_csv('KiteRight Customers.csv', encoding_errors='ignore')
     cust['BirthDate'] = pd.to_datetime(cust['BirthDate'])
@@ -101,7 +101,7 @@ dtLimitMerge = merge[(merge['SoldDate'].dt.date >= mindate) &
 #%% Creation of date-limited figures
 # cs = px.colors.qualitative.Vivid
 
-@st.cache
+@st.cache_data
 def kiteFig(df):
     kiteData = df[df['CategoryName'] =='Kites'].groupby(by='Size')
     kiteFig = px.bar(kiteData['SoldQuantity'].sum().sort_values(),
@@ -109,7 +109,7 @@ def kiteFig(df):
     kiteFig.layout.update(showlegend=False, yaxis_title='', yaxis_tickformat=",.0d")
     return kiteFig
 
-@st.cache
+@st.cache_data
 def sBrdFig(df):
     sBrdData = df[(df['CategoryName'] =='Boards') &
                   (df['Surfboard'] == 1)].groupby(by='Size')
@@ -118,7 +118,7 @@ def sBrdFig(df):
     sBrdFig.layout.update(showlegend=False, yaxis_title='', yaxis_tickformat=",.0d")
     return sBrdFig
 
-@st.cache
+@st.cache_data
 def tTipFig(df):
     tTipData = df[(df['CategoryName'] =='Boards') &
                   (df['Twintip'] == 1)].groupby(by='Size')
@@ -127,7 +127,7 @@ def tTipFig(df):
     tTipFig.layout.update(showlegend=False, yaxis_title='', yaxis_tickformat=",.0d")
     return tTipFig
 
-@st.cache
+@st.cache_data
 def clthFig(df):
     clthData = dtLimitMerge[(df['CategoryName'] == 
                            'Clothing')].groupby(by='Size')
@@ -136,7 +136,7 @@ def clthFig(df):
     clthFig.layout.update(showlegend=False, yaxis_title='', yaxis_tickformat=",.0d")
     return clthFig
 
-@st.cache
+@st.cache_data
 def trmpFig(df): 
     trmpFig = px.treemap(df, 
                          path=[px.Constant("All"), 'CategoryName'], 
@@ -146,7 +146,7 @@ def trmpFig(df):
 
 #%% Creation of date and category limited figures
 
-@st.cache
+@st.cache_data
 def limCat(catList, dfin):
     if catList==[]:
         dcLimitMerge = dfin.copy()
@@ -156,7 +156,7 @@ def limCat(catList, dfin):
 
 dcLimitMerge = limCat(catSel, dtLimitMerge)
 
-@st.cache(allow_output_mutation=True)
+@st.cache_data(allow_output_mutation=True)
 def wkSalesFig(df):
     wkSalesData = df.groupby(by=['SoldFDoW', 
                                  'CategoryName']).sum()['SoldQuantity'].unstack()
@@ -164,7 +164,7 @@ def wkSalesFig(df):
     wkSalesFig.layout.update(showlegend=False, yaxis_tickformat=",.0d")
     return wkSalesFig
 
-@st.cache
+@st.cache_data
 def sumTblData(df):
     sumTblData = df.groupby(by=['CategoryName', 'Model']
                                       ).agg({'SoldQuantity': 'sum',
@@ -177,7 +177,7 @@ def sumTblData(df):
                       inplace=True)
     return sumTblData
 
-@st.cache
+@st.cache_data
 def mapDriver(option):
     if option == 'Province':
         mapData = dcLimitMerge.groupby(by='Province'
@@ -194,7 +194,7 @@ def mapDriver(option):
     mapData.dropna(inplace=True)
     return mapData
 
-@st.cache(allow_output_mutation=True)
+@st.cache_data(allow_output_mutation=True)
 def mapFig(df, sel):
     mapFig = px.scatter_geo(df, lat='latitude', lon='longitude', 
                             size='SoldQuantity', hover_name=sel,
@@ -206,7 +206,7 @@ numCusts = len(pd.unique(cust['CustomerKey']))
 aveAge = cust['Age'].mean()
 aveInc = cust['Income'].mean()
 
-@st.cache
+@st.cache_data
 def ordByGendFig():
     ordByGendData = dcLimitMerge.groupby(by='Gender').agg({'SoldQuantity': 'sum'})
     ordByGendData.sort_values(by='SoldQuantity', ascending=False, inplace=True)
@@ -215,7 +215,7 @@ def ordByGendFig():
     ordByGendFig.layout.update(showlegend=False, yaxis_title='', yaxis_tickformat=",.0d")
     return ordByGendFig
 
-@st.cache
+@st.cache_data
 def ordByIncFig():
     ordByIncData = dcLimitMerge.groupby(by='IncLevel').agg({'SoldQuantity': 'sum'})
     ordByIncData.sort_values(by='SoldQuantity', ascending=False, inplace=True)
@@ -224,7 +224,7 @@ def ordByIncFig():
     ordByIncFig.layout.update(showlegend=False, yaxis_title='', yaxis_tickformat=",.0d")
     return ordByIncFig
 
-@st.cache
+@st.cache_data
 def ordByChildFig():
     ordByChildData = dcLimitMerge.groupby(by='Children').agg({'SoldQuantity': 'sum'})
     ordByChildData.sort_values(by='SoldQuantity', ascending=False, inplace=True)
@@ -250,12 +250,12 @@ def topCustTable(df):
 # Build a list for the selectbox that contains customerID
 custList = cust['listValue'].sort_values()
 
-@st.cache
+@st.cache_data
 def pullCustData(df, sel):
     custData = df[df['listValue']==sel]
     return custData
 
-@st.cache
+@st.cache_data
 def pullCustProds(df):
     custProds = df.groupby(by=['CategoryName', 'Model']).agg({'SoldQuantity': 'sum',
                                                               'Revenue': 'sum'})
