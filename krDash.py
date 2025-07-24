@@ -156,7 +156,7 @@ def limCat(catList, dfin):
 
 dcLimitMerge = limCat(catSel, dtLimitMerge)
 
-@st.cache_data(allow_output_mutation=True)
+@st.cache_data
 def wkSalesFig(df):
     wkSalesData = df.groupby(by=['SoldFDoW', 
                                  'CategoryName']).sum()['SoldQuantity'].unstack()
@@ -194,7 +194,7 @@ def mapDriver(option):
     mapData.dropna(inplace=True)
     return mapData
 
-@st.cache_data(allow_output_mutation=True)
+@st.cache_data
 def mapFig(df, sel):
     mapFig = px.scatter_geo(df, lat='latitude', lon='longitude', 
                             size='SoldQuantity', hover_name=sel,
